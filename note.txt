@@ -1,0 +1,8 @@
+# 2026/2/16 
+# =======================================================================================
+git reset --soft            ==> reset commit (working & stage remain)
+git reset                   ==> reset stage (working remain)   (time: reselect add files)
+git reset --hard            ==> reset working & stage to last commit
+git restore --stage files   ==> reset files only stage
+git restore files           ==> reset files only working
+# =======================================================================================

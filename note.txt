@@ -3,10 +3,36 @@
 git reset --soft            ==> reset commit (working & stage remain)
 git reset                   ==> reset stage (working remain)   (time: reselect add files)
 git reset --hard            ==> reset working & stage to last commit
-git restore --stage 'files' ==> reset files only stage
-git restore 'files'         ==> reset files only working
-git checkout master 'files' ==> reset files working & stage
+git restore --stage files   ==> reset files only stage
+git restore files           ==> reset files only working
+git checkout master files   ==> reset files working & stage
 # =======================================================================================
-git rm 'files'              ==> 1.remove files 2.delection can be tracked by version control
-git mv 'files' 'newfiles'
+git rm files              ==> 1.remove files 2.delection can be tracked by version control
+git mv files newfiles
 # =======================================================================================
+
+# 2026/2/24 data structure
+# =======================================================================================
+所有的物件都會以 zlib 演算法進行壓縮
+命名方式    : 檔名是根據檔案內容中的hash value所產生(前兩byte作為folder name,剩下作為file name)
+blob物件    : 執行git add時,會記錄該檔案的內容
+tree物件    : 會記錄該目錄下的所有資訊,相當於檔案系統中資料夾的概念,也可以理解為folder某個版本的snapshot
+commit物件  : 執行git commit時,會記錄有哪些tree物件和一些紀錄訊息
+
+git cat-file -p main        ==> 把main指向的commit內容print出來
+git cat-file -p commit_hash ==> 把該次的commit內容print出來
+git cat-file -p bolb_hash   ==> 把該bolb的內容print出來,相當於查看檔案內容
+git cat-file -p tree_hash   ==> 把該tree的內容print出來,相當於查看資料夾內容
+
+                                                                         ┌────────────┐
+                                                                    ┌──> │    blob    │
+             ┌──────────────┐       ┌─────────────────────────┐     │    │------------│
+(master) ──> │    commit    │ ────> │          tree           │     │    │  content   │
+             │--------------│       │-------------------------│     │    └────────────┘
+             │ tree: abc123 │       │ file1.txt → blob aaa111 ├─────┘
+             │ parent: ...  │       │ src/      → tree bbb222 ├─────┐
+             │ author: ...  │       └─────────────────────────┘     │    ┌───────────────────────┐      ┌────────────┐
+             │ message: ... │                                       └──> │          tree         │      │    blob    │
+             └──────────────┘                                            │-----------------------│ ───> │------------│
+                                                                         │file2.txt → blob ccc333│      │  content   │
+                                                                         └───────────────────────┘      └────────────┘

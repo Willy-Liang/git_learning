@@ -8,6 +8,7 @@ git restore files           ==> reset files only working
 git checkout master files   ==> reset files working & stage
 # =======================================================================================
 git rm files              ==> 1.remove files 2.delection can be tracked by version control
+git rm --cached files     ==> only remove from stage, keep in working ==> tracked -> untracked
 git mv files newfiles
 # =======================================================================================
 
@@ -36,3 +37,16 @@ git cat-file -p tree_hash   ==> 把該tree的內容print出來,相當於查看�
              └──────────────┘                                            │-----------------------│ ───> │------------│
                                                                          │file2.txt → blob ccc333│      │  content   │
                                                                          └───────────────────────┘      └────────────┘
+# =======================================================================================
+
+# 2026/2/24 other command
+# =======================================================================================
+git add -u                  ==> only update tracked files(include modified/deleted), exclude untracked files
+git ls-files                ==> print tracked files
+                                -o:untracked, -s:same as'git cat-file -p tree_hash', -i:ignored
+git diff                    ==> compare stage and working
+git diff --cached/staged    ==> compare commit and stage
+git diff file               ==> compare only file
+git diff --stat             ==> show statistical summary of changed files
+# =======================================================================================
+
